@@ -2,7 +2,7 @@
 #include "CPU_F401.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "matrix_display.h"
 
 void vTask_LED_Blink(void *pvParameters);
 
@@ -25,6 +25,19 @@ int main(void)
 	/* create task */
 	Task_Create_Result = xTaskCreate(vTask_LED_Blink,						/* Pointer to the task entry function */
 			"vTask_LED_Blink",						/* A descriptive name for the task */
+			configMINIMAL_STACK_SIZE,				/* The number of words (not bytes!) to allocate for use as the task's stack */
+			(void *)NULL,							/* A value that will passed into the created task as the task's parameter */
+			1,										/* The priority at which the created task will execute */
+			NULL);									/* Used to pass a handle to the created task out of the xTaskCreate() function.*/
+
+	if( Task_Create_Result != pdPASS )
+	{
+		while(1); // Falha ao criar a tarefa
+	}
+
+	/* create task */
+	Task_Create_Result = xTaskCreate(vTask_Matrix_Display,						/* Pointer to the task entry function */
+			"vTask_Matrix_Display",					/* A descriptive name for the task */
 			configMINIMAL_STACK_SIZE,				/* The number of words (not bytes!) to allocate for use as the task's stack */
 			(void *)NULL,							/* A value that will passed into the created task as the task's parameter */
 			1,										/* The priority at which the created task will execute */
