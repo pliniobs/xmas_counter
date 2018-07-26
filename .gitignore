@@ -1,3 +1,7 @@
+RemoteSystemsTempFiles
+.metadata
+xmas_clock\Debug
+
 # Prerequisites
 *.d
 
